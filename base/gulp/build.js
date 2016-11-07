@@ -15,7 +15,7 @@ gulp.task('clean', function () {
 });
 
 
-gulp.task('html', ['inject', 'scripts', 'styles', 'fonts-assets'], function () {
+gulp.task('html', ['inject', 'scripts', 'minifyuglify'], function () {
     return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
         .pipe($.useref())
         /*.pipe($.if('*.js', $.sourcemaps.init({'debug': true})))
@@ -28,8 +28,8 @@ gulp.task('html', ['inject', 'scripts', 'styles', 'fonts-assets'], function () {
         .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
 });
 
-gulp.task('minifyuglify', ['html'], function() {
-    return gulp.src(path.join(conf.paths.dist, '/**'))
+gulp.task('minifyuglify', ['styles'], function() {
+    return gulp.src([path.join(conf.paths.dist, '/**/*.js')], [path.join(conf.paths.dist, '/**/*.css')])
         .pipe($.if('*.js', $.sourcemaps.init()))
         .pipe($.if('*.js', $.uglify({ preserveComments: $.uglifySaveLicense }).on('error', conf.errorHandler('Uglify'))))
         .pipe($.if('*.js', $.sourcemaps.write('maps')))
@@ -42,14 +42,14 @@ gulp.task('minifyuglify', ['html'], function() {
 
 // Only applies for fonts from bower dependencies
 // Custom fonts are handled by the "other" task
-gulp.task('fonts', function () {
+gulp.task('fonts-deps', function () {
     return gulp.src($.mainBowerFiles('**/*.{eot,svg,ttf,woff,woff2}'))
         //.pipe($.flatten())
         .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
 });
 
-gulp.task('fonts-assets', function () {
-    return gulp.src(path.join(conf.paths.src, 'fonts/**/*'))
+gulp.task('fonts', ['fonts-deps'], function () {
+    return gulp.src(path.join(conf.paths.src, 'fonts/**/*.{eot,svg,ttf,woff,woff2}'))
     //.pipe($.flatten())
         .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
 });
@@ -59,4 +59,4 @@ gulp.task('images', function () {
         .pipe(gulp.dest(path.join(conf.paths.dist, '/images/')));
 });
 
-gulp.task('build', ['html', 'fonts', 'images', 'minifyuglify']);
+gulp.task('build', ['html', 'fonts', 'images']);
