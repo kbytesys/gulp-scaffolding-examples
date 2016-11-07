@@ -15,7 +15,7 @@ gulp.task('clean', function () {
 });
 
 
-gulp.task('html', ['inject', 'scripts', 'styles'], function () {
+gulp.task('html', ['inject', 'scripts', 'styles', 'fonts', 'fonts-assets'], function () {
     return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
         .pipe($.useref())
         /*.pipe($.if('*.js', $.sourcemaps.init({'debug': true})))
@@ -45,6 +45,12 @@ gulp.task('minifyuglify', ['html'], function() {
 gulp.task('fonts', function () {
     return gulp.src($.mainBowerFiles('**/*.{eot,svg,ttf,woff,woff2}'))
         //.pipe($.flatten())
+        .pipe(gulp.dest(path.join(conf.paths.distAssets, '/fonts/')));
+});
+
+gulp.task('fonts-assets', function () {
+    return gulp.src(path.join(conf.paths.src, 'fonts/**/*'))
+    //.pipe($.flatten())
         .pipe(gulp.dest(path.join(conf.paths.distAssets, '/fonts/')));
 });
 

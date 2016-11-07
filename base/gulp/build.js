@@ -15,7 +15,7 @@ gulp.task('clean', function () {
 });
 
 
-gulp.task('html', ['inject', 'scripts', 'styles'], function () {
+gulp.task('html', ['inject', 'scripts', 'styles', 'fonts-assets'], function () {
     return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
         .pipe($.useref())
         /*.pipe($.if('*.js', $.sourcemaps.init({'debug': true})))
@@ -48,6 +48,11 @@ gulp.task('fonts', function () {
         .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
 });
 
+gulp.task('fonts-assets', function () {
+    return gulp.src(path.join(conf.paths.src, 'fonts/**/*'))
+    //.pipe($.flatten())
+        .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
+});
 
 gulp.task('images', function () {
     return gulp.src(path.join(conf.paths.src, 'images/**/*'))
