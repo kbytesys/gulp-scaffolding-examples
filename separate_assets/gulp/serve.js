@@ -15,12 +15,13 @@ function browserSyncInit(baseDir, browser) {
 
     var routes = null;
     if(baseDir === conf.paths.src || (util.isArray(baseDir) && baseDir.indexOf(conf.paths.src) !== -1)) {
-        var assetsdir = '/' + conf.paths.distAssets;
+        var assetsdir = conf.paths.distAssets.replace(conf.paths.dist, "");
 
         routes = {
             '/bower_components': 'bower_components',
-            assetsdir : 'src'
         };
+
+        routes[assetsdir] = 'src';
     }
 
     var server = {

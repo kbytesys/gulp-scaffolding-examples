@@ -4,10 +4,12 @@ var gutil = require('gulp-util');
 /**
  *  The main paths of your project handle these with care
  */
+var baseDistDir = 'dist';
+
 exports.paths = {
     src: 'src',
-    dist: 'dist',
-    distAssets: 'dist/assets',
+    dist: baseDistDir,
+    distAssets: baseDistDir + '/assets',
     tmp: '.tmp'
 };
 /**
