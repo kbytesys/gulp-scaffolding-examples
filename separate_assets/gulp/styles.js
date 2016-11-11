@@ -33,6 +33,6 @@ var buildStyles = function () {
         .pipe($.sass(sassOptions))
         .pipe($.autoprefixer())
         .pipe($.sourcemaps.write())
-        .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve' + conf.paths.distAssets.replace(conf.paths.dist) + '/css/')));
+        .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve' + conf.paths.distAssets.replace(conf.paths.dist, "") + '/css/')));
 };
 
